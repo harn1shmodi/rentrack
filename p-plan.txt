@@ -1,0 +1,2 @@
+dropdown report interface with statistics (avg)
+index the report and login attributes

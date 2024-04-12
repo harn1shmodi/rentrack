@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<br />
+<h1 align="center">🏘️Properties</h1>
+<br />
+<div class="container"> 
+  <div class="row">  
+    {% for property in user.properties %}
+      <div class="col-md-4 mb-3"> <!--Adjust column size if needed-->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ property.address }}</h5>
+            <p class="card-text">
+              {{ property.city }}, {{ property.state }} {{ property.zip_code }}
+            </p>
+            <p class="card-text">
+              Bedrooms: {{ property.bedrooms }} <br/> 
+              Bathrooms: {{ property.bathrooms }} <br/>
+              Sq. Footage: {{ property.square_footage }} 
+            </p>
+            <p class="card-text">Status: {{ property.status }}</p> 
+            <button type="button" class="btn btn-danger" onClick="deleteProperty({{ property.property_id }})"> 
+              Delete
+            </button> 
+            <a href="{{ url_for('views.edit_property', property_id = property.property_id) }}" class="btn btn-primary">Edit</a> 
+          </div>
+        </div>
+      </div> 
+    {% endfor %}
+  </div>
+</div>
+
+<br />
+<div align="center">
+  <!--<button type="submit" class="btn btn-primary">Add Property</button>-->
+  <a href="{{ url_for('views.add_property') }}" class="btn btn-primary">Add Property</a>
+</div>
+{% endblock %}
