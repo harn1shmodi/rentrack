@@ -1,2 +1,7 @@
-dropdown report interface with statistics (avg)
-index the report and login attributes
+(done)rent and tenant info with statistics (avg)
+(done)index the report and login attributes
+(done)prepared statements
+(done: serializable)isolation levels
+(done) integrate tenant info into add property
+(done) can create multiple payments for a property
+fix issue with multiple cards for same property

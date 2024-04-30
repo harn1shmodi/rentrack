@@ -1,0 +1,24 @@
+{%extends "base.html"%} {% block title %}Add Payment{% endblock %} {% block content %}
+<div class="container">
+    <br />
+    <h1 align="center">Add Payment</h1>
+    <br />
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.amount.label(class="form-label") }}
+        {{ form.amount(class="form-control") }}
+
+        {% for error in form.amount.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %} <br>
+
+        {{ form.date.label(class="form-label") }}
+        {{ form.date(class="form-control") }}<br>
+
+        {{ form.payment_type.label(class="form-label") }}
+        {{ form.payment_type(class="form-control") }}<br>
+
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+{% endblock %}

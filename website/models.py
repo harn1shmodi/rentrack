@@ -1,9 +1,10 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy.schema import Index
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
@@ -19,7 +20,7 @@ class Property(db.Model):
     bathrooms = db.Column(db.Integer)
     square_footage = db.Column(db.Integer)
     status = db.Column(db.String(255))
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
 
     def __repr__(self):
         return '<Property %r>' % self.property_id

@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}Add Tenant{% endblock %} {% block content %}
+
+<div class="container">
+    <br />
+    <h1 align="center">Add Tenant</h1>
+    <br />
+    <form method="POST">
+        {{ form.hidden_tag() }}
+    
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-control") }}
+        {% for error in form.first_name.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %} <br>
+    
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-control") }}<br>
+    
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}<br>
+    
+        {{ form.phone_number.label(class="form-label") }}
+        {{ form.phone_number(class="form-control") }}<br>
+
+        {{ form.monthly_rent.label(class="form-label") }}
+        {{ form.monthly_rent(class="form-control") }}<br>
+
+        {{ form.lease_start_date.label(class="form-label") }}
+        {{ form.lease_start_date(class="form-control") }}<br>
+    
+        {{ form.lease_end_date.label(class="form-label") }}
+        {{ form.lease_end_date(class="form-control") }}<br>
+
+        {{ form.security_deposit.label(class="form-label") }}
+        {{ form.security_deposit(class="form-control") }}<br>
+    
+        {{ form.submit(class="btn btn-primary") }}
+
+    </form>
+    
+</div>
+    
+    {% endblock %}

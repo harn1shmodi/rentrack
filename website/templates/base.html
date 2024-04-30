@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -89,4 +91,10 @@ function deleteProperty(propId) {
 </script>
 {% endblock %}
   </body>
+  <script>
+    $('#proplist a').on('click', function (e) {
+e.preventDefault()
+$(this).tab('show')
+})
+  </script>
 </html>

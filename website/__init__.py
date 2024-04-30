@@ -11,6 +11,9 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjakjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    #isolation level in sql
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'isolation_level': 'SERIALIZABLE'}
+    
     db.init_app(app)
 
     from .views import views

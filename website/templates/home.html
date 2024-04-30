@@ -1,28 +1,123 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
+
 <br />
 <h1 align="center">🏘️Properties</h1>
 <br />
 <div class="container"> 
-  <div class="row">  
-    {% for property in user.properties %}
-      <div class="col-md-4 mb-3"> <!--Adjust column size if needed-->
+  <form method="GET">
+    <select name="status_filter" class="form-select">
+      <option value="" selected>All Properties</option>
+      {% for s in status %}
+        <option value="{{ s[0] }}">{{ s[0] }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button> 
+  </form>
+  </div>
+</div> 
+<br />
+<div class="container">
+  {% for i in avg_rent %}
+  Average Monthly Rent: ${{ i[0] }}
+  {% endfor %}
+  <br />
+  {% for j in avg_sqft %}
+  Average Square Footage: {{ j[0] }}
+  {% endfor %}
+  
+</div>
+<br />
+<div class="container"> 
+  <div class="row"> 
+    {% for property in properties %}
+      <div class="col-md-4 mb-3">
         <div class="card">
+          <div class="card-header">
+            <ul class="nav nav-pills card-header-pills nav-justified" id="proplist" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" href="#property-{{property[0]}}" role="tab" aria-controls="property" aria-selected="true">Property</a>
+              </li>
+              {% if property[8] == "Occupied" %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#tenant-info-{{property[0]}}" role="tab" aria-controls="tenant-info" aria-selected="false">Tenant</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#payment-status-{{property[0]}}" role="tab" aria-controls="payment-status" aria-selected="false">Payment</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Tenant</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Payment</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+
           <div class="card-body">
-            <h5 class="card-title">{{ property.address }}</h5>
-            <p class="card-text">
-              {{ property.city }}, {{ property.state }} {{ property.zip_code }}
-            </p>
-            <p class="card-text">
-              Bedrooms: {{ property.bedrooms }} <br/> 
-              Bathrooms: {{ property.bathrooms }} <br/>
-              Sq. Footage: {{ property.square_footage }} 
-            </p>
-            <p class="card-text">Status: {{ property.status }}</p> 
-            <button type="button" class="btn btn-danger" onClick="deleteProperty({{ property.property_id }})"> 
-              Delete
-            </button> 
-            <a href="{{ url_for('views.edit_property', property_id = property.property_id) }}" class="btn btn-primary">Edit</a> 
+            <h5 class="card-title">{{ property[1] }}</h5>
+            <h6 class="card-subtitle mb-2">
+              {{ property[2] }}, {{ property[3] }} {{ property[4] }}
+            </h6>
+
+            <div class="tab-content mt-3">
+
+              <div class="tab-pane active" id="property-{{property[0]}}" role="tabpanel">
+                <p class="card-text">
+                  Bedrooms: {{ property[5] }} <br/> 
+                  Bathrooms: {{ property[6] }} <br/>
+                  Sq. Footage: {{ property[7] }} 
+                </p>
+                <p class="card-text">Status: {{ property[8] }}</p> 
+                <button type="button" class="btn btn-danger" onClick="deleteProperty({{ property[0] }})"> 
+                  Delete
+                </button> 
+                <a href="{{ url_for('views.edit_property', property_id = property[0]) }}" class="btn btn-primary">Edit</a> 
+                
+                </div>
+
+              <div class="tab-pane" id="tenant-info-{{property[0]}}" role="tabpanel"  aria-labelledby="tenant-info">
+                <!--<h5 id="tenant-info">Tenant Info</h5>-->
+                <p class="card-text">
+                  Name: {{ property[11] }} <br/>
+                  Email: {{ property[13] }} <br/>
+                  Phone: {{ property[14] }} <br/>
+                  Lease Start: {{ property[15] }} <br/>
+                  Lease End: {{ property[16] }} <br/>
+                  Monthly rent: ${{ property[17] }} <br/>
+                  Security Deposit: ${{ property[18] }} <br/>
+                </p>
+                <!-- <a href="{{ url_for('views.add_tenant', property_id=property[0]) }}" class="btn btn-primary">Add Tenant</a> -->
+                <a href="{{ url_for('views.edit_property', property_id = property[0]) }}" class="btn btn-primary">Edit</a> 
+
+                </div>
+
+              <div class="tab-pane" id="payment-status-{{property[0]}}" role="tabpanel"  aria-labelledby="payement-status">
+                <!--<h5 id="payment-status">Payment Status</h5>-->
+                {% for p in payments %}
+                  {% if p[0] == property[0] %}
+                    <p class="card-text">
+                      Amount: ${{ p[1] }} <br/>
+                      Date: {{ p[2] }} <br/>
+                      Type: {{ p[3] }} <br/>
+                    </p>
+                  {% endif %}
+                {% endfor %}
+
+                
+                <!-- <p class="card-text">
+                  Amount: ${{ property[24] }} <br/>
+                  Date: {{ property[23] }} <br/>
+                  Type: {{ property[25] }} <br/>
+                </p> -->
+                <a href="{{ url_for('views.add_payment', property_id=property[0], tenant_id = property[10] or 0) }}" class="btn btn-primary">Add Payment</a>
+                
+              </div>
+
+            </div>
+            
           </div>
         </div>
       </div> 
@@ -35,4 +130,5 @@
   <!--<button type="submit" class="btn btn-primary">Add Property</button>-->
   <a href="{{ url_for('views.add_property') }}" class="btn btn-primary">Add Property</a>
 </div>
+<br>
 {% endblock %}

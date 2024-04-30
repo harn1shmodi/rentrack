@@ -34,8 +34,14 @@
     {{ form.square_footage.label(class="form-label") }}
     {{ form.square_footage(class="form-control") }}<br>
 
-    {{ form.status.label(class="form-label") }}
-    {{ form.status(class="form-control") }}<br>
+  
+    <select name="status" class="form-select">
+      <option value="Vacant">Vacant</option>
+      <option value="Occupied">Occupied</option>
+    </select> 
+    
+    <br>
+    <br>
 
     {{ form.submit(class="btn btn-primary") }}
   </form>
